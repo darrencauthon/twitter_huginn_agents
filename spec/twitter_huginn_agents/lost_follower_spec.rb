@@ -8,4 +8,8 @@ describe TwitterHuginnAgents::LostFollower do
     agent.is_a?(HuginnAgent).must_equal true
   end
 
+  it "should have a description" do
+    TwitterHuginnAgents::LostFollower.description.must_equal 'Track lost followers on Twitter'
+  end
+
 end
