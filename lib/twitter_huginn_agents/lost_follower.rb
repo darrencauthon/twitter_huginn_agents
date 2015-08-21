@@ -1,4 +1,4 @@
 module TwitterHuginnAgents
-  class LostFollower
+  class LostFollower < HuginnAgent
   end
 end
