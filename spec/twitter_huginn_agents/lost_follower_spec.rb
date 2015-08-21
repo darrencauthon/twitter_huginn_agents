@@ -12,4 +12,12 @@ describe TwitterHuginnAgents::LostFollower do
     TwitterHuginnAgents::LostFollower.description.must_equal 'Track lost followers on Twitter'
   end
 
+  describe "check" do
+
+    it "should exist" do
+      agent.respond_to?(:check).must_equal true
+    end
+
+  end
+
 end
