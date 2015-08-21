@@ -1,3 +1,4 @@
+require "twitter_huginn_agents/lost_follower"
 require "twitter_huginn_agents/version"
 
 module TwitterHuginnAgents
