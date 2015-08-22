@@ -9,5 +9,9 @@ module TwitterHuginnAgents
         create_event payload: { follower: follower }
       end
     end
+
+    def current_followers
+      twitter_client.follower_ids(twitter_username).to_hash[:ids]
+    end
   end
 end

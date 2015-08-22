@@ -73,4 +73,36 @@ describe TwitterHuginnAgents::LostFollower do
 
   end
 
+  describe "current followers" do
+
+    let(:twitter_client) { Object.new }
+
+    describe "there is only one page of items" do
+
+      let(:page) do
+        Struct.new(:to_hash).new( { ids: ids, next_cursor: next_cursor } )
+      end
+
+      let(:ids)         { [Object.new, Object.new, Object.new] }
+      let(:next_cursor) { 0 }
+
+      let(:twitter_username) { random_string }
+      
+      let(:results) { agent.current_followers }
+
+      before do
+        agent.stubs(:twitter_client).returns twitter_client
+        agent.stubs(:twitter_username).returns twitter_username
+        twitter_client.stubs(:follower_ids).with(twitter_username).returns page
+      end
+
+      it "should return the ids" do
+        results.count.must_equal ids.count
+        ids.each { |i| results.include?(i).must_equal true }
+      end
+
+    end
+
+  end
+
 end
