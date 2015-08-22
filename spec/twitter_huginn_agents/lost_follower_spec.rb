@@ -41,6 +41,19 @@ describe TwitterHuginnAgents::LostFollower do
 
       end
 
+      describe "and all of the followers are still followers" do
+
+        let(:current_followers) { previous_followers }
+
+        before { agent.stubs(:current_followers).returns current_followers }
+
+        it "should create an event stating that the follower was lost" do
+          agent.stubs(:create_event).raises 'should not have been called'
+          agent.check
+        end
+
+      end
+
     end
 
   end

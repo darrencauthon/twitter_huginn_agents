@@ -5,7 +5,9 @@ module TwitterHuginnAgents
     end
 
     def check
-      create_event payload: { lost_follower: (previous_followers - current_followers)[0] }
+      if lost_follower = (previous_followers - current_followers)[0]
+        create_event payload: { lost_follower: lost_follower }
+      end
     end
   end
 end
