@@ -6,7 +6,7 @@ module TwitterHuginnAgents
 
     def check
       (previous_followers - current_followers).each do |follower|
-        create_event payload: { lost_follower: follower }
+        create_event payload: { follower: follower }
       end
     end
   end

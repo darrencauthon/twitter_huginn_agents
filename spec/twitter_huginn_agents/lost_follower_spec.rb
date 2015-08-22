@@ -35,7 +35,7 @@ describe TwitterHuginnAgents::LostFollower do
         before { agent.stubs(:current_followers).returns current_followers }
 
         it "should create an event stating that the follower was lost" do
-          agent.expects(:create_event).with(payload: { lost_follower: lost_follower } )
+          agent.expects(:create_event).with(payload: { follower: lost_follower } )
           agent.check
         end
 
@@ -61,9 +61,9 @@ describe TwitterHuginnAgents::LostFollower do
         before { agent.stubs(:current_followers).returns current_followers }
 
         it "should create an event for each lost follower" do
-          agent.expects(:create_event).with(payload: { lost_follower: previous_followers[0] } )
-          agent.expects(:create_event).with(payload: { lost_follower: previous_followers[1] } )
-          agent.expects(:create_event).with(payload: { lost_follower: previous_followers[2] } )
+          agent.expects(:create_event).with(payload: { follower: previous_followers[0] } )
+          agent.expects(:create_event).with(payload: { follower: previous_followers[1] } )
+          agent.expects(:create_event).with(payload: { follower: previous_followers[2] } )
           agent.check
         end
 
