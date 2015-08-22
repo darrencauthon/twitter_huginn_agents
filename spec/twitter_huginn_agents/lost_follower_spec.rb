@@ -4,6 +4,8 @@ describe TwitterHuginnAgents::LostFollower do
 
   let(:agent) { TwitterHuginnAgents::LostFollower.new }
 
+  let(:memory) { {} }
+
   it "should be a huginn agent" do
     agent.is_a?(HuginnAgent).must_equal true
   end
@@ -11,6 +13,8 @@ describe TwitterHuginnAgents::LostFollower do
   it "should have a description" do
     TwitterHuginnAgents::LostFollower.description.must_equal 'Track lost followers on Twitter'
   end
+
+  before { agent.stubs(:memory).returns memory }
 
   describe "check" do
 
@@ -75,11 +79,7 @@ describe TwitterHuginnAgents::LostFollower do
 
   describe "previous followers" do
 
-    let(:memory) { {} }
-
     let(:results) { agent.previous_followers }
-
-    before { agent.stubs(:memory).returns memory }
 
     describe "and the followers are in memory" do
       let(:followers) { Object.new }
