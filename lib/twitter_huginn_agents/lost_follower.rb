@@ -13,5 +13,9 @@ module TwitterHuginnAgents
     def current_followers
       twitter_client.follower_ids(twitter_username).to_hash[:ids]
     end
+
+    def previous_followers
+      memory[:followers] || []
+    end
   end
 end

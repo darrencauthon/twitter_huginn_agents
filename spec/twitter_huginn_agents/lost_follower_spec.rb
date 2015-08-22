@@ -73,6 +73,35 @@ describe TwitterHuginnAgents::LostFollower do
 
   end
 
+  describe "previous followers" do
+
+    let(:memory) { {} }
+
+    let(:results) { agent.previous_followers }
+
+    before { agent.stubs(:memory).returns memory }
+
+    describe "and the followers are in memory" do
+      let(:followers) { Object.new }
+
+      before { memory[:followers] = followers }
+
+      it "should return the followers" do
+        results.must_be_same_as followers
+      end
+    end
+
+    describe "and there are no followers in memory" do
+      before { memory[:followers] = nil }
+
+      it "should return an empty array" do
+        results.is_a?(Array).must_equal true
+        results.count.must_equal 0
+      end
+    end
+
+  end
+
   describe "current followers" do
 
     let(:twitter_client) { Object.new }
