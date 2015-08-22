@@ -54,6 +54,21 @@ describe TwitterHuginnAgents::LostFollower do
 
       end
 
+      describe "and all of the followers have left" do
+
+        let(:current_followers) { [] }
+
+        before { agent.stubs(:current_followers).returns current_followers }
+
+        it "should create an event for each lost follower" do
+          agent.expects(:create_event).with(payload: { lost_follower: previous_followers[0] } )
+          agent.expects(:create_event).with(payload: { lost_follower: previous_followers[1] } )
+          agent.expects(:create_event).with(payload: { lost_follower: previous_followers[2] } )
+          agent.check
+        end
+
+      end
+
     end
 
   end
