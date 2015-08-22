@@ -8,6 +8,7 @@ module TwitterHuginnAgents
       (previous_followers - current_followers).each do |follower|
         create_event payload: { follower: follower }
       end
+      memory[:followers] = current_followers
     end
 
     def current_followers

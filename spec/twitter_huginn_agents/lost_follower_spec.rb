@@ -22,6 +22,8 @@ describe TwitterHuginnAgents::LostFollower do
       agent.respond_to?(:check).must_equal true
     end
 
+    before { agent.stubs(:create_event) }
+
     describe "we saw three twitter followers previously" do
 
       before { agent.stubs(:previous_followers).returns previous_followers }
@@ -40,6 +42,18 @@ describe TwitterHuginnAgents::LostFollower do
 
         it "should create an event stating that the follower was lost" do
           agent.expects(:create_event).with(payload: { follower: lost_follower } )
+          agent.check
+        end
+
+        it "should store the current followers in memory" do
+          agent.check
+          memory[:followers].must_be_same_as current_followers
+        end
+
+        it "should not store the current follower" do
+          agent.stubs(:create_event).with do |_|
+            memory[:followers].nil?.must_equal true
+          end
           agent.check
         end
 
@@ -68,6 +82,13 @@ describe TwitterHuginnAgents::LostFollower do
           agent.expects(:create_event).with(payload: { follower: previous_followers[0] } )
           agent.expects(:create_event).with(payload: { follower: previous_followers[1] } )
           agent.expects(:create_event).with(payload: { follower: previous_followers[2] } )
+          agent.check
+        end
+
+        it "should not store the current follower" do
+          agent.stubs(:create_event).with do |_|
+            memory[:followers].nil?.must_equal true
+          end
           agent.check
         end
 
