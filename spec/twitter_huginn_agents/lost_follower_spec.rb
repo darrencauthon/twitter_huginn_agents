@@ -155,4 +155,22 @@ describe TwitterHuginnAgents::LostFollower do
 
   end
 
+  describe "default options" do
+
+    let(:default_options) { agent.default_options }
+
+    it "should include the consumer key" do
+      default_options[:consumer_key].must_equal ''
+    end
+
+    it "should include the consumer secret" do
+      default_options[:consumer_secret].must_equal ''
+    end
+
+    it "should include the twitter username" do
+      default_options[:twitter_username].must_equal ''
+    end
+
+  end
+
 end

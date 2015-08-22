@@ -18,5 +18,13 @@ module TwitterHuginnAgents
     def previous_followers
       memory[:followers] || []
     end
+
+    def default_options
+      {
+        consumer_key: '',
+        consumer_secret: '',
+        twitter_username: '',
+      }
+    end
   end
 end
