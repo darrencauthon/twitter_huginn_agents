@@ -18,6 +18,31 @@ describe TwitterHuginnAgents::LostFollower do
       agent.respond_to?(:check).must_equal true
     end
 
+    describe "we saw three twitter followers previously" do
+
+      before { agent.stubs(:previous_followers).returns previous_followers }
+
+      let(:previous_followers) { [random_string, random_string, random_string] }
+
+      describe "and one of the followers is no longer a follower" do
+
+        let(:lost_follower) { previous_followers.sample }
+
+        let(:current_followers) do
+          previous_followers - [lost_follower]
+        end
+
+        before { agent.stubs(:current_followers).returns current_followers }
+
+        it "should create an event stating that the follower was lost" do
+          agent.expects(:create_event).with(payload: { lost_follower: lost_follower } )
+          agent.check
+        end
+
+      end
+
+    end
+
   end
 
 end
