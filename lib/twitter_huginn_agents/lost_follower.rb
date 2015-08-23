@@ -8,7 +8,7 @@ module TwitterHuginnAgents
 
     def check
       (previous_followers - current_followers).each do |follower|
-        create_event payload: { follower: follower }
+        create_event payload: Twitter.user(follower).to_hash
       end
       memory[:followers] = current_followers
     end

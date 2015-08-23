@@ -26,7 +26,10 @@ describe TwitterHuginnAgents::LostFollower do
       agent.respond_to?(:check).must_equal true
     end
 
-    before { agent.stubs(:create_event) }
+    before do
+      agent.stubs(:create_event)
+      Twitter.stubs(:user).returns Struct.new(:to_hash).new(nil)
+    end
 
     describe "we saw three twitter followers previously" do
 
@@ -38,14 +41,19 @@ describe TwitterHuginnAgents::LostFollower do
 
         let(:lost_follower) { previous_followers.sample }
 
+        let(:user_data) { Object.new }
+
         let(:current_followers) do
           previous_followers - [lost_follower]
         end
 
-        before { agent.stubs(:current_followers).returns current_followers }
+        before do
+          Twitter.stubs(:user).with(lost_follower).returns Struct.new(:to_hash).new(user_data)
+          agent.stubs(:current_followers).returns current_followers
+        end
 
         it "should create an event stating that the follower was lost" do
-          agent.expects(:create_event).with(payload: { follower: lost_follower } )
+          agent.expects(:create_event).with(payload: user_data)
           agent.check
         end
 
@@ -83,9 +91,13 @@ describe TwitterHuginnAgents::LostFollower do
         before { agent.stubs(:current_followers).returns current_followers }
 
         it "should create an event for each lost follower" do
-          agent.expects(:create_event).with(payload: { follower: previous_followers[0] } )
-          agent.expects(:create_event).with(payload: { follower: previous_followers[1] } )
-          agent.expects(:create_event).with(payload: { follower: previous_followers[2] } )
+          user_data1, user_data2, user_data3 = Object.new, Object.new, Object.new
+          Twitter.stubs(:user).with(previous_followers[0]).returns Struct.new(:to_hash).new(user_data1)
+          Twitter.stubs(:user).with(previous_followers[1]).returns Struct.new(:to_hash).new(user_data2)
+          Twitter.stubs(:user).with(previous_followers[2]).returns Struct.new(:to_hash).new(user_data3)
+          agent.expects(:create_event).with(payload: user_data1)
+          agent.expects(:create_event).with(payload: user_data2)
+          agent.expects(:create_event).with(payload: user_data3)
           agent.check
         end
 
