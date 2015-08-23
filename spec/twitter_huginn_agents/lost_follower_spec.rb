@@ -4,7 +4,8 @@ describe TwitterHuginnAgents::LostFollower do
 
   let(:agent) { TwitterHuginnAgents::LostFollower.new }
 
-  let(:memory) { {} }
+  let(:memory)  { {} }
+  let(:options) { {} }
 
   it "should be a huginn agent" do
     agent.is_a?(HuginnAgent).must_equal true
@@ -14,7 +15,10 @@ describe TwitterHuginnAgents::LostFollower do
     TwitterHuginnAgents::LostFollower.description.must_equal 'Track lost followers on Twitter'
   end
 
-  before { agent.stubs(:memory).returns memory }
+  before do
+    agent.stubs(:memory).returns memory
+    agent.stubs(:options).returns options
+  end
 
   describe "check" do
 
@@ -169,6 +173,17 @@ describe TwitterHuginnAgents::LostFollower do
 
     it "should include the twitter username" do
       default_options[:twitter_username].must_equal ''
+    end
+
+  end
+  
+  describe "twitter_username" do
+
+    let(:username) { Object.new }
+
+    it "should return the options" do
+      options[:twitter_username] = username
+      agent.twitter_username.must_be_same_as username
     end
 
   end

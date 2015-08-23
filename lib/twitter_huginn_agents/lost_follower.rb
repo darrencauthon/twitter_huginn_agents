@@ -19,6 +19,10 @@ module TwitterHuginnAgents
       memory[:followers] || []
     end
 
+    def twitter_username
+      options[:twitter_username]
+    end
+
     def default_options
       {
         consumer_key: '',
