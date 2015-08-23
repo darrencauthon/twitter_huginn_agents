@@ -188,4 +188,12 @@ describe TwitterHuginnAgents::LostFollower do
 
   end
 
+  describe "twitter client" do
+
+    it "should return a twitter agent" do
+      agent.twitter_client.is_a?(::Twitter::REST::Client).must_equal true
+    end
+
+  end
+
 end

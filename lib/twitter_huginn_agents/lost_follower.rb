@@ -1,3 +1,5 @@
+require 'twitter'
+
 module TwitterHuginnAgents
   class LostFollower < HuginnAgent
     def self.description
@@ -29,6 +31,13 @@ module TwitterHuginnAgents
         consumer_secret: '',
         twitter_username: '',
       }
+    end
+
+    def twitter_client
+      ::Twitter::REST::Client.new do |config|
+        config.consumer_key    = options[:consumer_key]
+        config.consumer_secret = options[:consumer_secret]
+      end
     end
   end
 end
