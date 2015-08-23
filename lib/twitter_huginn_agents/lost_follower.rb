@@ -42,6 +42,8 @@ module TwitterHuginnAgents
 
     def validate_options
       errors.add :base, 'you must provide your Twitter consumer key' if options['consumer_key'].to_s.strip == ''
+      errors.add :base, 'you must provide your Twitter consumer secret' if options['consumer_secret'].to_s.strip == ''
+      errors.add :base, 'you must provide your Twitter username' if options['twitter_username'].to_s.strip == ''
     end
   end
 end

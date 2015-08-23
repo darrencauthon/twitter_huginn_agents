@@ -247,6 +247,66 @@ describe TwitterHuginnAgents::LostFollower do
 
     end
 
+    describe "validating the consumer secret" do
+
+      it "should error if it is blank" do
+        options['consumer_secret'] = ''
+        errors.expects(:add).with(:base, 'you must provide your Twitter consumer secret')
+        agent.validate_options
+      end
+
+      it "should not set the error if it is set" do
+        options['consumer_secret'] = random_string
+        errors.stubs(:add)
+              .with(:base, 'you must provide your Twitter consumer secret')
+              .raises 'should not have been called'
+        agent.validate_options
+      end
+
+      it "should error if it is nil" do
+        options['consumer_secret'] = nil
+        errors.expects(:add).with(:base, 'you must provide your Twitter consumer secret')
+        agent.validate_options
+      end
+
+      it "should ignore empty values" do
+        options['consumer_secret'] = '    '
+        errors.expects(:add).with(:base, 'you must provide your Twitter consumer secret')
+        agent.validate_options
+      end
+
+    end
+
+    describe "validating the username" do
+
+      it "should error if it is blank" do
+        options['twitter_username'] = ''
+        errors.expects(:add).with(:base, 'you must provide your Twitter username')
+        agent.validate_options
+      end
+
+      it "should not set the error if it is set" do
+        options['twitter_username'] = random_string
+        errors.stubs(:add)
+              .with(:base, 'you must provide your Twitter username')
+              .raises 'should not have been called'
+        agent.validate_options
+      end
+
+      it "should error if it is nil" do
+        options['twitter_username'] = nil
+        errors.expects(:add).with(:base, 'you must provide your Twitter username')
+        agent.validate_options
+      end
+
+      it "should ignore empty values" do
+        options['consumer_username'] = '    '
+        errors.expects(:add).with(:base, 'you must provide your Twitter username')
+        agent.validate_options
+      end
+
+    end
+
   end
 
 end
