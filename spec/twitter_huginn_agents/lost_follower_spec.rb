@@ -208,4 +208,45 @@ describe TwitterHuginnAgents::LostFollower do
 
   end
 
+  describe "validation options" do
+
+    let(:errors) { Object.new }
+
+    before do
+      errors.stubs :add
+      agent.stubs(:errors).returns errors
+    end
+
+    describe "validating the consumer key" do
+
+      it "should error if it is blank" do
+        options['consumer_key'] = ''
+        errors.expects(:add).with(:base, 'you must provide your Twitter consumer key')
+        agent.validate_options
+      end
+
+      it "should not set the error if it is set" do
+        options['consumer_key'] = random_string
+        errors.stubs(:add)
+              .with(:base, 'you must provide your Twitter consumer key')
+              .raises 'should not have been called'
+        agent.validate_options
+      end
+
+      it "should error if it is nil" do
+        options['consumer_key'] = nil
+        errors.expects(:add).with(:base, 'you must provide your Twitter consumer key')
+        agent.validate_options
+      end
+
+      it "should ignore empty values" do
+        options['consumer_key'] = '    '
+        errors.expects(:add).with(:base, 'you must provide your Twitter consumer key')
+        agent.validate_options
+      end
+
+    end
+
+  end
+
 end

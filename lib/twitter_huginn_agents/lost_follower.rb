@@ -39,5 +39,9 @@ module TwitterHuginnAgents
         config.consumer_secret = options[:consumer_secret]
       end
     end
+
+    def validate_options
+      errors.add :base, 'you must provide your Twitter consumer key' if options['consumer_key'].to_s.strip == ''
+    end
   end
 end
