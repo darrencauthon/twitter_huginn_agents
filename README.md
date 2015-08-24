@@ -38,16 +38,3 @@ If someone unfollows you on Twitter, an event will be fired.  The fired event wi
 contain all of the data that the Twitter API offers (look at the example on this
 page: https://dev.twitter.com/rest/reference/get/users/lookup). The variable you
 probably care about the most is "screen_name".
-
-
-
-
-
-
-## Contributing
-
-1. Fork it ( https://github.com/[my-github-username]/twitter_huginn_agents/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
