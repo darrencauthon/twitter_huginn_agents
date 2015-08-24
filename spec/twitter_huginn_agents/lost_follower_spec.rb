@@ -22,13 +22,16 @@ describe TwitterHuginnAgents::LostFollower do
 
   describe "check" do
 
+    let(:twitter_client) { Object.new }
+
     it "should exist" do
       agent.respond_to?(:check).must_equal true
     end
 
     before do
       agent.stubs(:create_event)
-      Twitter.stubs(:user).returns Struct.new(:to_hash).new(nil)
+      twitter_client.stubs(:user).returns Struct.new(:to_hash).new(nil)
+      agent.stubs(:twitter_client).returns twitter_client
     end
 
     describe "we saw three twitter followers previously" do
@@ -48,7 +51,7 @@ describe TwitterHuginnAgents::LostFollower do
         end
 
         before do
-          Twitter.stubs(:user).with(lost_follower).returns Struct.new(:to_hash).new(user_data)
+          twitter_client.stubs(:user).with(lost_follower).returns Struct.new(:to_hash).new(user_data)
           agent.stubs(:current_followers).returns current_followers
         end
 
@@ -92,9 +95,9 @@ describe TwitterHuginnAgents::LostFollower do
 
         it "should create an event for each lost follower" do
           user_data1, user_data2, user_data3 = Object.new, Object.new, Object.new
-          Twitter.stubs(:user).with(previous_followers[0]).returns Struct.new(:to_hash).new(user_data1)
-          Twitter.stubs(:user).with(previous_followers[1]).returns Struct.new(:to_hash).new(user_data2)
-          Twitter.stubs(:user).with(previous_followers[2]).returns Struct.new(:to_hash).new(user_data3)
+          twitter_client.stubs(:user).with(previous_followers[0]).returns Struct.new(:to_hash).new(user_data1)
+          twitter_client.stubs(:user).with(previous_followers[1]).returns Struct.new(:to_hash).new(user_data2)
+          twitter_client.stubs(:user).with(previous_followers[2]).returns Struct.new(:to_hash).new(user_data3)
           agent.expects(:create_event).with(payload: user_data1)
           agent.expects(:create_event).with(payload: user_data2)
           agent.expects(:create_event).with(payload: user_data3)
