@@ -9,10 +9,8 @@ module TwitterHuginnAgents
     end
 
     def check
-      followers_who_were_not_here_at_last_check.each do |follower|
-        create_event payload: user_data_for(follower)
-      end
-      memory[:followers] = current_followers
+      fire_an_event_for_any_new_unfollowers
+      store_the_current_list_of_follows_for_the_next_check
     end
 
     def default_options
@@ -54,6 +52,18 @@ module TwitterHuginnAgents
 
     def previous_followers
       memory[:followers] || []
+    end
+
+    private
+
+    def fire_an_event_for_any_new_unfollowers
+      followers_who_were_not_here_at_last_check.each do |follower|
+        create_event payload: user_data_for(follower)
+      end
+    end
+
+    def store_the_current_list_of_follows_for_the_next_check
+      memory[:followers] = current_followers
     end
 
   end
