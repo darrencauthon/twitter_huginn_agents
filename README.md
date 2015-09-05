@@ -1,6 +1,9 @@
 # Twitter Huginn Agents
 
-Agents that could help 
+[![Build Status](https://travis-ci.org/darrencauthon/twitter_huginn_agents.png)](https://travis-ci.org/darrencauthon/twitter_huginn_agents)
+[![Code Climate](https://codeclimate.com/github/darrencauthon/twitter_huginn_agents.png)](https://codeclimate.com/github/darrencauthon/twitter_huginn_agents)
+
+Agents that allow you to work with Twitter deata
 
 ## Installation
 
